@@ -12,9 +12,13 @@
 		332B7C5E1EA9B36900B4FD8E /* mainprocedure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 332B7C5C1EA9B36800B4FD8E /* mainprocedure.cpp */; };
 		332B7C611EA9B3BB00B4FD8E /* service.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 332B7C5F1EA9B3BB00B4FD8E /* service.cpp */; };
 		332B7C641EA9B6A000B4FD8E /* servicemanager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 332B7C621EA9B6A000B4FD8E /* servicemanager.cpp */; };
-		332B7C6A1EA9B89600B4FD8E /* threadmanager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 332B7C681EA9B89600B4FD8E /* threadmanager.cpp */; };
 		334E9D9C1EB200A9009BB7ED /* coctx_swap.S in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D991EB200A9009BB7ED /* coctx_swap.S */; };
 		334E9D9D1EB200A9009BB7ED /* coctx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D9A1EB200A9009BB7ED /* coctx.cpp */; };
+		334E9DA01EB2C7BB009BB7ED /* coroutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D9E1EB2C7BB009BB7ED /* coroutine.cpp */; };
+		334E9DA31EB2D24A009BB7ED /* coroutinemanager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9DA11EB2D24A009BB7ED /* coroutinemanager.cpp */; };
+		334E9DA61EB327A8009BB7ED /* runnable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9DA41EB327A8009BB7ED /* runnable.cpp */; };
+		334E9DA91EB339F9009BB7ED /* workthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9DA71EB339F9009BB7ED /* workthread.cpp */; };
+		334E9DAC1EB33FD7009BB7ED /* monitor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9DAA1EB33FD7009BB7ED /* monitor.cpp */; };
 		33B05DE61EAF48D7007016E1 /* messagequeue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B05DE41EAF48D7007016E1 /* messagequeue.cpp */; };
 		33B05DE91EAF49CF007016E1 /* globalmessagequeue.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 33B05DE71EAF49CF007016E1 /* globalmessagequeue.cpp */; };
 /* End PBXBuildFile section */
@@ -44,12 +48,21 @@
 		332B7C601EA9B3BB00B4FD8E /* service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = service.h; path = kernel/service.h; sourceTree = "<group>"; };
 		332B7C621EA9B6A000B4FD8E /* servicemanager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = servicemanager.cpp; path = kernel/servicemanager.cpp; sourceTree = "<group>"; };
 		332B7C631EA9B6A000B4FD8E /* servicemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = servicemanager.h; path = kernel/servicemanager.h; sourceTree = "<group>"; };
-		332B7C681EA9B89600B4FD8E /* threadmanager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = threadmanager.cpp; path = kernel/threadmanager.cpp; sourceTree = "<group>"; };
-		332B7C691EA9B89600B4FD8E /* threadmanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = threadmanager.h; path = kernel/threadmanager.h; sourceTree = "<group>"; };
 		332B7C6B1EA9DCA100B4FD8E /* arguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = arguments.h; path = kernel/arguments.h; sourceTree = "<group>"; };
 		334E9D991EB200A9009BB7ED /* coctx_swap.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = coctx_swap.S; path = kernel/cocontext/coctx_swap.S; sourceTree = "<group>"; };
 		334E9D9A1EB200A9009BB7ED /* coctx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coctx.cpp; path = kernel/cocontext/coctx.cpp; sourceTree = "<group>"; };
 		334E9D9B1EB200A9009BB7ED /* coctx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coctx.h; path = kernel/cocontext/coctx.h; sourceTree = "<group>"; };
+		334E9D9E1EB2C7BB009BB7ED /* coroutine.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coroutine.cpp; path = kernel/coroutine.cpp; sourceTree = "<group>"; };
+		334E9D9F1EB2C7BB009BB7ED /* coroutine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coroutine.h; path = kernel/coroutine.h; sourceTree = "<group>"; };
+		334E9DA11EB2D24A009BB7ED /* coroutinemanager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coroutinemanager.cpp; path = kernel/coroutinemanager.cpp; sourceTree = "<group>"; };
+		334E9DA21EB2D24A009BB7ED /* coroutinemanager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coroutinemanager.h; path = kernel/coroutinemanager.h; sourceTree = "<group>"; };
+		334E9DA41EB327A8009BB7ED /* runnable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = runnable.cpp; path = kernel/runnable.cpp; sourceTree = "<group>"; };
+		334E9DA51EB327A8009BB7ED /* runnable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = runnable.h; path = kernel/runnable.h; sourceTree = "<group>"; };
+		334E9DA71EB339F9009BB7ED /* workthread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = workthread.cpp; path = kernel/workthread.cpp; sourceTree = "<group>"; };
+		334E9DA81EB339F9009BB7ED /* workthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = workthread.h; path = kernel/workthread.h; sourceTree = "<group>"; };
+		334E9DAA1EB33FD7009BB7ED /* monitor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = monitor.cpp; path = kernel/monitor.cpp; sourceTree = "<group>"; };
+		334E9DAB1EB33FD7009BB7ED /* monitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = monitor.h; path = kernel/monitor.h; sourceTree = "<group>"; };
+		334E9DAD1EB34D91009BB7ED /* rwlock.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = rwlock.h; path = common/rwlock.h; sourceTree = "<group>"; };
 		33B05DE01EAF2F5B007016E1 /* circularqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = circularqueue.h; path = common/circularqueue.h; sourceTree = "<group>"; };
 		33B05DE41EAF48D7007016E1 /* messagequeue.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = messagequeue.cpp; path = kernel/messagequeue.cpp; sourceTree = "<group>"; };
 		33B05DE51EAF48D7007016E1 /* messagequeue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = messagequeue.h; path = kernel/messagequeue.h; sourceTree = "<group>"; };
@@ -108,10 +121,18 @@
 				332B7C601EA9B3BB00B4FD8E /* service.h */,
 				332B7C621EA9B6A000B4FD8E /* servicemanager.cpp */,
 				332B7C631EA9B6A000B4FD8E /* servicemanager.h */,
-				332B7C681EA9B89600B4FD8E /* threadmanager.cpp */,
-				332B7C691EA9B89600B4FD8E /* threadmanager.h */,
 				332B7C6B1EA9DCA100B4FD8E /* arguments.h */,
 				33141D921EAF4E8100B31AB0 /* arguments.cpp */,
+				334E9D9E1EB2C7BB009BB7ED /* coroutine.cpp */,
+				334E9D9F1EB2C7BB009BB7ED /* coroutine.h */,
+				334E9DA11EB2D24A009BB7ED /* coroutinemanager.cpp */,
+				334E9DA21EB2D24A009BB7ED /* coroutinemanager.h */,
+				334E9DA41EB327A8009BB7ED /* runnable.cpp */,
+				334E9DA51EB327A8009BB7ED /* runnable.h */,
+				334E9DA71EB339F9009BB7ED /* workthread.cpp */,
+				334E9DA81EB339F9009BB7ED /* workthread.h */,
+				334E9DAA1EB33FD7009BB7ED /* monitor.cpp */,
+				334E9DAB1EB33FD7009BB7ED /* monitor.h */,
 			);
 			name = kernel;
 			sourceTree = "<group>";
@@ -123,6 +144,7 @@
 				332B7C561EA9A22C00B4FD8E /* common.h */,
 				332B7C571EA9A33100B4FD8E /* spinlock.h */,
 				33B05DE01EAF2F5B007016E1 /* circularqueue.h */,
+				334E9DAD1EB34D91009BB7ED /* rwlock.h */,
 			);
 			name = common;
 			sourceTree = "<group>";
@@ -194,16 +216,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				334E9DA61EB327A8009BB7ED /* runnable.cpp in Sources */,
 				332B7C5E1EA9B36900B4FD8E /* mainprocedure.cpp in Sources */,
 				334E9D9C1EB200A9009BB7ED /* coctx_swap.S in Sources */,
-				332B7C6A1EA9B89600B4FD8E /* threadmanager.cpp in Sources */,
 				334E9D9D1EB200A9009BB7ED /* coctx.cpp in Sources */,
+				334E9DAC1EB33FD7009BB7ED /* monitor.cpp in Sources */,
 				33B05DE91EAF49CF007016E1 /* globalmessagequeue.cpp in Sources */,
 				33B05DE61EAF48D7007016E1 /* messagequeue.cpp in Sources */,
 				332B7C611EA9B3BB00B4FD8E /* service.cpp in Sources */,
 				33141D941EAF4E8100B31AB0 /* arguments.cpp in Sources */,
+				334E9DA31EB2D24A009BB7ED /* coroutinemanager.cpp in Sources */,
 				332B7C551EA99E3E00B4FD8E /* main.cpp in Sources */,
 				332B7C641EA9B6A000B4FD8E /* servicemanager.cpp in Sources */,
+				334E9DA01EB2C7BB009BB7ED /* coroutine.cpp in Sources */,
+				334E9DA91EB339F9009BB7ED /* workthread.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

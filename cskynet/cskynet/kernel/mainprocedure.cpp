@@ -1,5 +1,6 @@
 #include "../common/common.h"
 #include "mainprocedure.h"
+#include "workthread.h"
 
 using namespace csn;
 
@@ -10,7 +11,7 @@ void MainProcedure::init()
 
 void MainProcedure::start()
 {
-    
+
 }
 
 void MainProcedure::exit()

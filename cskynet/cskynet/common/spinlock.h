@@ -8,8 +8,9 @@ namespace csn
     {
     public:
         SpinLock()
+            : m_nLock(0)
         {
-            m_nLock = 0;
+            
         }
         
         ~SpinLock()

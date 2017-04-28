@@ -56,128 +56,150 @@ namespace csn
         {
             return m_vecArgument.size();
         }
+        
+        void clear()
+        {
+            m_vecArgument.clear();
+            m_vecUserData.clear();
+        }
 
         template<typename T>
-        void push(T&& arg)
+        int32_t push(T&& arg)
         {
             BaseType base;
             base.m_type = eArg_UserData;
             base.m_value.u64 = m_vecUserData.size();
             m_vecArgument.push_back(base);
             m_vecUserData.push_back(std::make_shared<Argument<T> >(std::forward<T>(arg)));
+            return 0;
         }
 
         template<typename T>
-        void push(T& arg)
+        int32_t push(T& arg)
         {
             BaseType base;
             base.m_type = eArg_UserData;
             base.m_value.u64 = m_vecUserData.size();
             m_vecArgument.push_back(base);
             m_vecUserData.push_back(std::make_shared<Argument<T> >(std::forward<T>(arg)));
+            return 0;
         }
 
-        void push(int8_t arg)
+        int32_t push(int8_t arg)
         {
             BaseType base;
             base.m_type = eArg_Int8;
             base.m_value.i8 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(int16_t arg)
+        int32_t push(int16_t arg)
         {
             BaseType base;
             base.m_type = eArg_Int16;
             base.m_value.i16 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(int32_t arg)
+        int32_t push(int32_t arg)
         {
             BaseType base;
             base.m_type = eArg_Int32;
             base.m_value.i32 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
         
-        void push(long arg)
+        int32_t push(long arg)
         {
             push(static_cast<int64_t>(arg));
+            return 0;
         }
 
-        void push(int64_t arg)
+        int32_t push(int64_t arg)
         {
             BaseType base;
             base.m_type = eArg_Int64;
             base.m_value.i64 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(uint8_t arg)
+        int32_t push(uint8_t arg)
         {
             BaseType base;
             base.m_type = eArg_UInt8;
             base.m_value.u8 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(uint16_t arg)
+        int32_t push(uint16_t arg)
         {
             BaseType base;
             base.m_type = eArg_UInt16;
             base.m_value.u16 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(uint32_t arg)
+        int32_t push(uint32_t arg)
         {
             BaseType base;
             base.m_type = eArg_UInt32;
             base.m_value.u32 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
         
-        void push(unsigned long arg)
+        int32_t push(unsigned long arg)
         {
             push(static_cast<uint64_t>(arg));
+            return 0;
         }
 
-        void push(uint64_t arg)
+        int32_t push(uint64_t arg)
         {
             BaseType base;
             base.m_type = eArg_UInt64;
             base.m_value.u64 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(float arg)
+        int32_t push(float arg)
         {
             BaseType base;
             base.m_type = eArg_Float32;
             base.m_value.f32 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(double arg)
+        int32_t push(double arg)
         {
             BaseType base;
             base.m_type = eArg_Float64;
             base.m_value.f64 = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(bool arg)
+        int32_t push(bool arg)
         {
             BaseType base;
             base.m_type = eArg_Bool;
             base.m_value.b = arg;
             m_vecArgument.push_back(base);
+            return 0;
         }
 
-        void push(const char* arg)
+        int32_t push(const char* arg)
         {
             push(std::string(arg));
+            return 0;
         }
 
         template<typename T>
