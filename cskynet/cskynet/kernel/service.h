@@ -1,22 +1,26 @@
 #pragma once
 
-#include <functional>
 #include "messagequeue.h"
+#include <map>
 
 namespace csn
 {
     class Service
     {
     public:
-        Service();
-        ~Service();
-        
-        virtual void callback(Message& msg) = 0;
-        
+		Service(uint32_t uHandle);
+		virtual ~Service();
+
+		virtual void init(const Message& msg) = 0;
+        virtual void dispatch(const Message& msg) = 0;
+		virtual void release(const Message& msg) = 0;
+
+		void grab();
+		void free();
+
     private:
         MessageQueue* m_pMsgQue;
         uint32_t m_uHandle;
-        uint32_t m_uSessionId;
         int32_t m_nRefCnt;
 
         int32_t m_nMsgCnt;

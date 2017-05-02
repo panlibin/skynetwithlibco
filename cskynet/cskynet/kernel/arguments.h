@@ -114,11 +114,11 @@ namespace csn
         
         int32_t push(long arg)
         {
-            push(static_cast<int64_t>(arg));
+            push(static_cast<long long>(arg));
             return 0;
         }
 
-        int32_t push(int64_t arg)
+        int32_t push(long long arg)
         {
             BaseType base;
             base.m_type = eArg_Int64;
@@ -156,11 +156,11 @@ namespace csn
         
         int32_t push(unsigned long arg)
         {
-            push(static_cast<uint64_t>(arg));
+            push(static_cast<unsigned long long>(arg));
             return 0;
         }
 
-        int32_t push(uint64_t arg)
+        int32_t push(unsigned long long arg)
         {
             BaseType base;
             base.m_type = eArg_UInt64;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "circularqueue.h"
+#include "../common/circularqueue.h"
 #include "../common/spinlock.h"
 #include "arguments.h"
 #include <functional>

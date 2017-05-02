@@ -3,8 +3,9 @@
 
 using namespace csn;
 
-MessageQueue::MessageQueue()
+MessageQueue::MessageQueue(uint32_t uHandle)
     : m_bInGlobal(false)
+	, m_uHandle(uHandle)
 {
     
 }
@@ -38,4 +39,9 @@ bool MessageQueue::pop(Message* pMessage)
     }
     m_lock.unlock();
     return suc;
+}
+
+uint32_t MessageQueue::getHandle()
+{
+	return m_uHandle;
 }

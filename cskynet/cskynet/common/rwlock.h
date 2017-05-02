@@ -51,6 +51,11 @@ namespace csn
                 __sync_synchronize();
             }
         }
+
+		void wunlock()
+		{
+			__sync_lock_release(&m_nWrite);
+		}
         
     private:
         int32_t m_nWrite;

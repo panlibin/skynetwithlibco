@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{e848191f-70ef-4255-9d93-436a5f03e15d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel">
+      <UniqueIdentifier>{b6c7b37d-5cf3-4e74-b613-d92ddd0590bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="kernel\cocontext">
+      <UniqueIdentifier>{70f1a96e-4411-4d9c-90fe-21c99edf9b8a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="cskynet\common\circularqueue.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\common\common.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\common\rwlock.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\common\singleton.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\common\spinlock.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\arguments.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\coroutine.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\coroutinemanager.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\globalmessagequeue.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\mainprocedure.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\messagequeue.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\monitor.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\runnable.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\service.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\servicemanager.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\workthread.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\cocontext\coctx.h">
+      <Filter>kernel\cocontext</Filter>
+    </ClInclude>
+    <ClInclude Include="cskynet\kernel\message.h">
+      <Filter>kernel</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="cskynet\kernel\arguments.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\coroutine.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\coroutinemanager.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\globalmessagequeue.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\main.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\mainprocedure.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\messagequeue.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\monitor.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\runnable.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\service.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\servicemanager.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\workthread.cpp">
+      <Filter>kernel</Filter>
+    </ClCompile>
+    <ClCompile Include="cskynet\kernel\cocontext\coctx.cpp">
+      <Filter>kernel\cocontext</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="cskynet\kernel\cocontext\coctx_swap.S">
+      <Filter>kernel\cocontext</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="cskynet\kernel\cocontext\libcoctxswap.a">
+      <Filter>kernel\cocontext</Filter>
+    </Library>
+  </ItemGroup>
+</Project>
