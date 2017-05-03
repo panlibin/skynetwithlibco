@@ -41,15 +41,53 @@ void ThreadMonitor::check()
 }
 
 
-Monitor::Monitor()
-	: m_nCount(0)
+Monitor::Monitor(int32_t nThreadCount)
+	: m_nCount(nThreadCount)
 	, m_nSleep(0)
 	, m_bQuit(false)
 {
-
+    m_vecThreadMonitor.resize(m_nCount, NULL);
+    for (int32_t i = 0; i < m_nCount; ++i)
+    {
+        m_vecThreadMonitor[i] = new ThreadMonitor();
+    }
 }
 
 Monitor::~Monitor()
 {
+    for (int32_t i = 0; i < m_vecThreadMonitor.size(); ++i)
+    {
+        delete m_vecThreadMonitor[i];
+    }
+}
 
+void Monitor::wakeup(int32_t nBusy)
+{
+    if (m_nSleep >= m_nCount - nBusy)
+    {
+        m_cond.notify_one();
+    }
+}
+
+int32_t Monitor::getThreadCount()
+{
+    return m_nCount;
+}
+
+bool Monitor::quit()
+{
+    return m_bQuit;
+}
+
+ThreadMonitor* Monitor::getThreadMonitor(int32_t nIdx)
+{
+    return m_vecThreadMonitor[nIdx];
+}
+
+void Monitor::check()
+{
+    for (int32_t i = 0; i < m_vecThreadMonitor.size(); ++i)
+    {
+        m_vecThreadMonitor[i]->check();
+    }
 }

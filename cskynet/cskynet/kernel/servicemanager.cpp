@@ -5,7 +5,7 @@
 using namespace csn;
 
 ServiceManager::ServiceManager()
-	: m_ulSessionId(0)
+    : m_uServiceCount(0)
 {
 	m_vecService.push_back(NULL);
 }
@@ -15,47 +15,91 @@ ServiceManager::~ServiceManager()
 
 }
 
-Service* ServiceManager::grab(uint32_t uHandle)
+Service* ServiceManager::grab(uint64_t ulHandle)
 {
 	Service* pRes = NULL;
+    uint64_t ulIdx = ulHandle & SLOT_MASK;
+
 	m_rwlock.rlock();
-	pRes = m_vecService[uHandle];
+    if (ulIdx < m_vecService.size())
+    {
+        pRes = m_vecService[ulIdx];
+    }
 	m_rwlock.runlock();
 
-	if (pRes)
+	if (NULL != pRes)
 	{
-		pRes->grab();
+        if (pRes->getHandle() == ulHandle)
+        {
+            pRes->grab();
+        }
+        else
+        {
+            pRes = NULL;
+        }
 	}
 
 	return pRes;
 }
 
-void ServiceManager::free(uint32_t uHandle)
+void ServiceManager::free(uint64_t ulHandle)
 {
 	Service* pRes = NULL;
+    uint64_t ulIdx = ulHandle & SLOT_MASK;
+    
 	m_rwlock.rlock();
-	pRes = m_vecService[uHandle];
+    if (ulIdx < m_vecService.size())
+    {
+        pRes = m_vecService[ulIdx];
+    }
 	m_rwlock.runlock();
 
-	if (pRes)
+	if (NULL != pRes && pRes->getHandle() == ulHandle)
 	{
 		pRes->free();
 	}
 }
 
-void ServiceManager::destroy(uint32_t uHandle)
+void ServiceManager::destroy(uint64_t ulHandle)
 {
 	Service* pRes = NULL;
+    uint64_t ulIdx = ulHandle & SLOT_MASK;
+    
 	m_rwlock.wlock();
-	pRes = m_vecService[uHandle];
-	m_vecService[uHandle] = NULL;
-	m_queIdleHandle.push(uHandle);
+    if (ulIdx < m_vecService.size())
+    {
+        pRes = m_vecService[ulIdx];
+        if (NULL != pRes)
+        {
+            if (pRes->getHandle() == ulHandle)
+            {
+                --m_uServiceCount;
+                m_vecService[ulIdx] = NULL;
+                m_queIdleHandle.push((ulHandle + RECYCLE_INC) & RECYCLE_MASK);
+                if (!pRes->getName().empty())
+                {
+                    NameHandleMap::iterator it = m_mapNameHandle.find(pRes->getName());
+                    if (it != m_mapNameHandle.end())
+                    {
+                        m_mapNameHandle.erase(it);
+                    }
+                }
+            }
+            else
+            {
+                pRes = NULL;
+            }
+        }
+    }
 	m_rwlock.wunlock();
 
-	delete pRes;
+    if (NULL != pRes)
+    {
+        delete pRes;
+    }
 }
 
-uint64_t ServiceManager::allocSessionId()
+uint32_t ServiceManager::getServiceCount()
 {
-	return ATOM_INC(&m_ulSessionId);
+    return m_uServiceCount;
 }

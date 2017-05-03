@@ -2,13 +2,11 @@
 
 #include "../common/rwlock.h"
 #include "../common/circularqueue.h"
+#include "message.h"
 #include <vector>
 #include <map>
 #include <string>
-
-// reserve high 8 bits for remote id
-#define HANDLE_MASK 0xffffff
-#define HANDLE_REMOTE_SHIFT 24
+#include <assert.h>
 
 namespace csn
 {
@@ -21,33 +19,50 @@ namespace csn
         ~ServiceManager();
         
 		template<class T>
-		uint32_t create()
+		uint64_t create()
 		{
 			m_rwlock.wlock();
-			uint32_t uHandle = 0;
-			if (!m_queIdleHandle.pop(uHandle))
+			uint64_t ulHandle = 0;
+			if (!m_queIdleHandle.pop(ulHandle))
 			{
-				uHandle = m_vecService.size();
-				m_vecService.push_back(NULL);
+				ulHandle = m_vecService.size();
+                assert(ulHandle < MAX_SLOT_SIZE);
+                m_vecService.push_back(NULL);
 			}
 
-			m_vecService[uHandle] = new T(uHandle);
+            uint64_t ulIdx = ulHandle & SLOT_MASK;
+            assert(ulIdx < m_vecService.size() && m_vecService[ulIdx] == NULL);
+            ++m_uServiceCount;
+			m_vecService[ulIdx] = new T(ulHandle);
 			m_rwlock.wunlock();
-			return uHandle;
+			return ulHandle;
 		}
+        
+        template<typename ...Args>
+        bool send(uint64_t ulSource, uint64_t ulDestination, eMessageType eType, uint64_t ulSession, Args&&... args)
+        {
 
-		Service* grab(uint32_t uHandle);
-		void free(uint32_t uHandle);
+        }
 
-		void destroy(uint32_t uHandle);
+		Service* grab(uint64_t uHandle);
+		void free(uint64_t uHandle);
 
-		uint64_t allocSessionId();
+		void destroy(uint64_t uHandle);
+        uint32_t getServiceCount();
 	private:
+        typedef std::vector<Service*> ServicePtrVec;
+        typedef std::map<std::string, uint64_t> NameHandleMap;
+        
 		RWLock m_rwlock;
-		std::vector<Service*> m_vecService;
-		CircularQueue<uint32_t> m_queIdleHandle;
-		std::map<std::string, uint32_t> m_mapNameHandle;
-		uint64_t m_ulSessionId;
+		ServicePtrVec m_vecService;
+		CircularQueue<uint64_t> m_queIdleHandle;
+		NameHandleMap m_mapNameHandle;
+        uint32_t m_uServiceCount;
+
+        static const uint64_t MAX_SLOT_SIZE = 0x0000000001000000;
+        static const uint64_t SLOT_MASK = MAX_SLOT_SIZE - 1;
+        static const uint64_t RECYCLE_INC = MAX_SLOT_SIZE;
+        static const uint64_t RECYCLE_MASK = 0x0000FFFFFFFFFFFF;
     };
     
 #define g_ServiceManager Singleton<ServiceManager>::instance()

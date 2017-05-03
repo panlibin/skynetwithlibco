@@ -24,9 +24,14 @@ namespace csn
     class Monitor
     {
 	public:
-		Monitor();
+		Monitor(int32_t nThreadCount);
 		~Monitor();
 
+        void wakeup(int32_t busy);
+        int32_t getThreadCount();
+        bool quit();
+        ThreadMonitor* getThreadMonitor(int32_t nIdx);
+        void check();
 	private:
 		int32_t m_nCount;
 		int32_t m_nSleep;

@@ -45,7 +45,7 @@ namespace csn
         
         void init(const std::function<void(Arguments&)>& fn);
         template<typename... Args>
-        Arguments& resume(Args... args)
+        Arguments& resume(Args&&... args)
         {
             m_args.clear();
             wrapper(m_args.push(args)...);
@@ -55,7 +55,7 @@ namespace csn
         Arguments& resume();
         
         template<typename... Args>
-        static Arguments& yield(Args... args)
+        static Arguments& yield(Args&&... args)
         {
             ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
             Arguments& ret = pEnv->pMain->m_args;
