@@ -38,7 +38,7 @@ void Timer::updateTime()
     }
 }
 
-uint64_t Timer::timeout(uint64_t ulHandle, uint64_t ulSession, uint32_t uTime, bool bLoop)
+uint64_t Timer::timeout(uint64_t ulHandle, uint32_t uSession, uint32_t uTime, bool bLoop)
 {
     uint64_t ulTimerId = ATOM_INC(&m_ulCurTimerId);
     if (uTime <= 0)
@@ -50,7 +50,7 @@ uint64_t Timer::timeout(uint64_t ulHandle, uint64_t ulSession, uint32_t uTime, b
         TimerEvent* pEvent = new TimerEvent();
         pEvent->ulTimerId = ulTimerId;
         pEvent->ulHandle = ulHandle;
-        pEvent->ulSession = ulSession;
+        pEvent->uSession = uSession;
         pEvent->uInterval = uTime;
         pEvent->bLoop = bLoop;
         m_lock.lock();

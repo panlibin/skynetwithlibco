@@ -10,7 +10,7 @@ namespace csn
     {
         uint64_t ulTimerId;
         uint64_t ulHandle;
-        uint64_t ulSession;
+        uint32_t uSession;
         uint32_t uInterval;
         uint32_t uExpire;
         bool bLoop;
@@ -22,7 +22,7 @@ namespace csn
         Timer();
         
         void updateTime();
-        uint64_t timeout(uint64_t ulHandle, uint64_t ulSession, uint32_t uTime, bool bLoop);
+        uint64_t timeout(uint64_t ulHandle, uint32_t uSession, uint32_t uTime, bool bLoop);
         
     private:
         static uint64_t gettime();

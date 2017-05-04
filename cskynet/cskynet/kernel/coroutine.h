@@ -8,6 +8,8 @@
 
 namespace csn
 {
+    static const int16_t YT_CALL = 0;
+    static const int16_t YT_RESPONSE = 1;
     static const uint32_t DEFAULT_STACK_SIZE = 1024 * 128;
     class Coroutine;
 
@@ -45,30 +47,37 @@ namespace csn
         
         void init(const std::function<void(Arguments&)>& fn);
         template<typename... Args>
-        Arguments& resume(Args&&... args)
+        Arguments& resume(Args&... args)
         {
             m_args.clear();
             wrapper(m_args.push(args)...);
-            return resume();
+            return resumeProc();
         }
         
+        Arguments& resume(const Arguments& args);
         Arguments& resume();
         
         template<typename... Args>
-        static Arguments& yield(Args&&... args)
+        static Arguments& yield(Args&... args)
         {
             ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
             Arguments& ret = pEnv->pMain->m_args;
             ret.clear();
             wrapper(ret.push(args)...);
-            return yield();
+
+            return yieldProc();
         }
         
+        static Arguments& yield(const Arguments& args);
         static Arguments& yield();
         
         void run();
         void end();
+        void setIsMain(bool bIsMain);
+        bool isMain();
     private:
+        static Arguments& yieldProc();
+        Arguments& resumeProc();
         static void swap(Coroutine* pCurr, Coroutine* pPending);
 
         coctx_t m_ctx;

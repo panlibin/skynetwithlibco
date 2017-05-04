@@ -205,21 +205,12 @@ namespace csn
         template<typename T>
         T get(uint32_t nIdx)
         {
-            if (nIdx < m_vecArgument.size())
-            {
-                BaseType& base = m_vecArgument[nIdx];
-                if (base.m_type == eArg_UserData && base.m_value.u64 < m_vecUserData.size())
-                {
-                    std::shared_ptr<ArgumentStub> pUd = m_vecUserData[base.m_value.u64];
-                    Argument<T>* pRes = dynamic_cast<Argument<T>*>(pUd.get());
-                    if (pRes != NULL)
-                    {
-                        return pRes->getValue();
-                    }
-                }
-            }
-            T t;
-            return t;
+            assert(nIdx < m_vecArgument.size());
+            BaseType& base = m_vecArgument[nIdx];
+            assert(base.m_type == eArg_UserData && base.m_value.u64 < m_vecUserData.size());
+            std::shared_ptr<ArgumentStub> pUd = m_vecUserData[base.m_value.u64];
+            Argument<T>* pRes = dynamic_cast<Argument<T>*>(pUd.get());
+            return pRes->getValue();
         }
 
     private:

@@ -11,6 +11,7 @@ ThreadEnv* CoroutineManager::getThreadEnv()
     {
         m_pThreadEnv = new ThreadEnv();
         m_pThreadEnv->pMain = new Coroutine();
+        m_pThreadEnv->pMain->setIsMain(true);
         m_pThreadEnv->pRunning = m_pThreadEnv->pMain;
     }
     return m_pThreadEnv;

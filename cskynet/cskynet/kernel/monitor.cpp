@@ -17,7 +17,7 @@ ThreadMonitor::~ThreadMonitor()
 
 }
 
-void ThreadMonitor::trigger(uint32_t source, uint32_t destination)
+void ThreadMonitor::trigger(uint64_t source, uint64_t destination)
 {
 	m_source = source;
 	m_destination = destination;
@@ -90,4 +90,15 @@ void Monitor::check()
     {
         m_vecThreadMonitor[i]->check();
     }
+}
+
+void Monitor::wait()
+{
+    std::unique_lock<std::mutex> lock(m_mutex);
+    ++m_nSleep;
+    if (!quit())
+    {
+        m_cond.wait(lock);
+    }
+    --m_nSleep;
 }

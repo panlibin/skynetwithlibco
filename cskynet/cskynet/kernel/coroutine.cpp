@@ -40,7 +40,19 @@ void Coroutine::init(const std::function<void(Arguments&)>& fn)
     m_bEnd = false;
 }
 
+Arguments& Coroutine::resume(const Arguments& args)
+{
+    m_args = args;
+    return resumeProc();
+}
+
 Arguments& Coroutine::resume()
+{
+    m_args.clear();
+    return resumeProc();
+}
+
+Arguments& Coroutine::resumeProc()
 {
     ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
     if (!m_bStart)
@@ -50,12 +62,28 @@ Arguments& Coroutine::resume()
     }
     pEnv->pRunning = this;
     swap(pEnv->pMain, this);
-
+    
     pEnv = g_CoroutineManager.getThreadEnv();
     return pEnv->pRunning->m_args;
 }
 
+Arguments& Coroutine::yield(const Arguments& args)
+{
+    ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
+    pEnv->pMain->m_args = args;
+
+    return yieldProc();
+}
+
 Arguments& Coroutine::yield()
+{
+    ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
+    pEnv->pMain->m_args.clear();
+
+    return yieldProc();
+}
+
+Arguments& Coroutine::yieldProc()
 {
     ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
     Coroutine* pRunning = pEnv->pRunning;
@@ -79,4 +107,14 @@ void Coroutine::run()
 void Coroutine::end()
 {
     m_bEnd = true;
+}
+
+void Coroutine::setIsMain(bool bIsMain)
+{
+    m_bIsMain = bIsMain;
+}
+
+bool Coroutine::isMain()
+{
+    return m_bIsMain;
 }

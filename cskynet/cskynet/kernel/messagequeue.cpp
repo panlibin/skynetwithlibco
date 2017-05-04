@@ -3,9 +3,10 @@
 
 using namespace csn;
 
-MessageQueue::MessageQueue(uint64_t ulHandle)
+MessageQueue::MessageQueue()
     : m_bInGlobal(false)
-	, m_ulHandle(ulHandle)
+    , m_ulHandle(0)
+    , m_bWaitForDestroy(false)
 {
     
 }
@@ -27,7 +28,7 @@ void MessageQueue::push(Message* pMessage)
     m_lock.unlock();
 }
 
-bool MessageQueue::pop(Message* pMessage)
+bool MessageQueue::pop(Message*& pMessage)
 {
     bool suc = false;
     m_lock.lock();
@@ -41,7 +42,30 @@ bool MessageQueue::pop(Message* pMessage)
     return suc;
 }
 
+int32_t MessageQueue::size()
+{
+    m_lock.lock();
+    int32_t nSize = m_queMessage.size();
+    m_lock.unlock();
+    return nSize;
+}
+
 uint64_t MessageQueue::getHandle()
 {
 	return m_ulHandle;
+}
+
+void MessageQueue::markRelease()
+{
+    m_bWaitForDestroy = true;
+}
+
+bool MessageQueue::isWaitForDestroy()
+{
+    return m_bWaitForDestroy;
+}
+
+void MessageQueue::setHandle(uint64_t ulHandle)
+{
+    m_ulHandle = ulHandle;
 }

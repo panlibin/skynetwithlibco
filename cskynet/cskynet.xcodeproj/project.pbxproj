@@ -15,6 +15,7 @@
 		334029A91EB99D23000A0417 /* monitorthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334029A71EB99D23000A0417 /* monitorthread.cpp */; };
 		334029AC1EB9A3DC000A0417 /* timerthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334029AA1EB9A3DC000A0417 /* timerthread.cpp */; };
 		334029AF1EB9A4E4000A0417 /* timer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334029AD1EB9A4E4000A0417 /* timer.cpp */; };
+		334029B31EBAE5F1000A0417 /* mainservice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334029B11EBAE5F1000A0417 /* mainservice.cpp */; };
 		334E9D9C1EB200A9009BB7ED /* coctx_swap.S in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D991EB200A9009BB7ED /* coctx_swap.S */; };
 		334E9D9D1EB200A9009BB7ED /* coctx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D9A1EB200A9009BB7ED /* coctx.cpp */; };
 		334E9DA01EB2C7BB009BB7ED /* coroutine.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 334E9D9E1EB2C7BB009BB7ED /* coroutine.cpp */; };
@@ -59,6 +60,8 @@
 		334029AB1EB9A3DC000A0417 /* timerthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timerthread.h; path = kernel/timerthread.h; sourceTree = "<group>"; };
 		334029AD1EB9A4E4000A0417 /* timer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = timer.cpp; path = kernel/timer.cpp; sourceTree = "<group>"; };
 		334029AE1EB9A4E4000A0417 /* timer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = timer.h; path = kernel/timer.h; sourceTree = "<group>"; };
+		334029B11EBAE5F1000A0417 /* mainservice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = mainservice.cpp; path = service/mainservice.cpp; sourceTree = "<group>"; };
+		334029B21EBAE5F1000A0417 /* mainservice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mainservice.h; path = service/mainservice.h; sourceTree = "<group>"; };
 		334E9D991EB200A9009BB7ED /* coctx_swap.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = coctx_swap.S; path = kernel/cocontext/coctx_swap.S; sourceTree = "<group>"; };
 		334E9D9A1EB200A9009BB7ED /* coctx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = coctx.cpp; path = kernel/cocontext/coctx.cpp; sourceTree = "<group>"; };
 		334E9D9B1EB200A9009BB7ED /* coctx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = coctx.h; path = kernel/cocontext/coctx.h; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		332B7C461EA9962400B4FD8E /* cskynet */ = {
 			isa = PBXGroup;
 			children = (
+				334029B01EBAE5C2000A0417 /* service */,
 				332B7C521EA999B300B4FD8E /* common */,
 				332B7C4E1EA9968300B4FD8E /* kernel */,
 			);
@@ -164,6 +168,15 @@
 				334E9DAD1EB34D91009BB7ED /* rwlock.h */,
 			);
 			name = common;
+			sourceTree = "<group>";
+		};
+		334029B01EBAE5C2000A0417 /* service */ = {
+			isa = PBXGroup;
+			children = (
+				334029B11EBAE5F1000A0417 /* mainservice.cpp */,
+				334029B21EBAE5F1000A0417 /* mainservice.h */,
+			);
+			name = service;
 			sourceTree = "<group>";
 		};
 		334E9D981EB20071009BB7ED /* cocontext */ = {
@@ -239,6 +252,7 @@
 				334E9D9D1EB200A9009BB7ED /* coctx.cpp in Sources */,
 				334E9DAC1EB33FD7009BB7ED /* monitor.cpp in Sources */,
 				33B05DE91EAF49CF007016E1 /* globalmessagequeue.cpp in Sources */,
+				334029B31EBAE5F1000A0417 /* mainservice.cpp in Sources */,
 				33B05DE61EAF48D7007016E1 /* messagequeue.cpp in Sources */,
 				332B7C611EA9B3BB00B4FD8E /* service.cpp in Sources */,
 				33141D941EAF4E8100B31AB0 /* arguments.cpp in Sources */,

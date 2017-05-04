@@ -33,16 +33,12 @@ namespace csn
             uint64_t ulIdx = ulHandle & SLOT_MASK;
             assert(ulIdx < m_vecService.size() && m_vecService[ulIdx] == NULL);
             ++m_uServiceCount;
-			m_vecService[ulIdx] = new T(ulHandle);
+            Service* pService = new T();
+			m_vecService[ulIdx] = pService;
 			m_rwlock.wunlock();
+            initService(pService, ulHandle);
 			return ulHandle;
 		}
-        
-        template<typename ...Args>
-        bool send(uint64_t ulSource, uint64_t ulDestination, eMessageType eType, uint64_t ulSession, Args&&... args)
-        {
-
-        }
 
 		Service* grab(uint64_t uHandle);
 		void free(uint64_t uHandle);
@@ -50,6 +46,8 @@ namespace csn
 		void destroy(uint64_t uHandle);
         uint32_t getServiceCount();
 	private:
+        void initService(Service* pService, uint64_t ulHandle);
+        
         typedef std::vector<Service*> ServicePtrVec;
         typedef std::map<std::string, uint64_t> NameHandleMap;
         

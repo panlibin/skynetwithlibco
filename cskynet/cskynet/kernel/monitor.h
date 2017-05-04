@@ -12,13 +12,13 @@ namespace csn
 		ThreadMonitor();
 		~ThreadMonitor();
 
-		void trigger(uint32_t source, uint32_t destination);
+		void trigger(uint64_t source, uint64_t destination);
 		void check();
 	private:
 		int32_t m_version;
 		int32_t m_checkVersion;
-		uint32_t m_source;
-		uint32_t m_destination;
+		uint64_t m_source;
+		uint64_t m_destination;
 	};
 
     class Monitor
@@ -32,6 +32,7 @@ namespace csn
         bool quit();
         ThreadMonitor* getThreadMonitor(int32_t nIdx);
         void check();
+        void wait();
 	private:
 		int32_t m_nCount;
 		int32_t m_nSleep;
