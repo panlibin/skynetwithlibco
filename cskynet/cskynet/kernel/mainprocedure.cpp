@@ -17,21 +17,24 @@ void MainProcedure::init()
 void MainProcedure::start()
 {
     std::vector<Runnable*> vecThread;
-    vecThread.resize(8 + 3, NULL);
+    vecThread.resize(8 + 2, NULL);
     
     Monitor* pMonitor = new Monitor(8);
     
     vecThread[0] = new MonitorThread(pMonitor);
     vecThread[1] = new TimerThread(pMonitor);
-    vecThread[2] = new WorkThread(pMonitor, pMonitor->getThreadMonitor(0), -1);
-    
-    g_ServiceManager.create<Main>();
+    for (int32_t i = 0; i < 8; ++i)
+    {
+        vecThread[i + 2] = new WorkThread(pMonitor, pMonitor->getThreadMonitor(i), -1);
+    }
 
-    for (int32_t i = 0; i < 3; ++i)
+    Service::newservice<Main>();
+
+    for (int32_t i = 0; i < vecThread.size(); ++i)
     {
         vecThread[i]->start();
     }
-    for (int32_t i = 0; i < 3; ++i)
+    for (int32_t i = 0; i < vecThread.size(); ++i)
     {
         vecThread[i]->join();
     }

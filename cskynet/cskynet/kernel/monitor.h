@@ -29,7 +29,8 @@ namespace csn
 
         void wakeup(int32_t busy);
         int32_t getThreadCount();
-        bool quit();
+        bool isQuit();
+        void quit();
         ThreadMonitor* getThreadMonitor(int32_t nIdx);
         void check();
         void wait();

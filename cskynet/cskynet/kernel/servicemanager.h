@@ -17,37 +17,14 @@ namespace csn
     public:
         ServiceManager();
         ~ServiceManager();
-        
-		template<class T>
-		uint64_t create()
-		{
-			m_rwlock.wlock();
-			uint64_t ulHandle = 0;
-			if (!m_queIdleHandle.pop(ulHandle))
-			{
-				ulHandle = m_vecService.size();
-                assert(ulHandle < MAX_SLOT_SIZE);
-                m_vecService.push_back(NULL);
-			}
 
-            uint64_t ulIdx = ulHandle & SLOT_MASK;
-            assert(ulIdx < m_vecService.size() && m_vecService[ulIdx] == NULL);
-            ++m_uServiceCount;
-            Service* pService = new T();
-			m_vecService[ulIdx] = pService;
-			m_rwlock.wunlock();
-            initService(pService, ulHandle);
-			return ulHandle;
-		}
-
+        uint64_t registerHandle(Service* pService);
 		Service* grab(uint64_t uHandle);
 		void free(uint64_t uHandle);
 
 		void destroy(uint64_t uHandle);
         uint32_t getServiceCount();
 	private:
-        void initService(Service* pService, uint64_t ulHandle);
-        
         typedef std::vector<Service*> ServicePtrVec;
         typedef std::map<std::string, uint64_t> NameHandleMap;
         
@@ -62,6 +39,5 @@ namespace csn
         static const uint64_t RECYCLE_INC = MAX_SLOT_SIZE;
         static const uint64_t RECYCLE_MASK = 0x0000FFFFFFFFFFFF;
     };
-    
-#define g_ServiceManager Singleton<ServiceManager>::instance()
 }
+#define g_ServiceManager csn::Singleton<csn::ServiceManager>::instance()

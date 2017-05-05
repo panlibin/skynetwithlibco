@@ -70,7 +70,7 @@ namespace csn
             base.m_type = eArg_UserData;
             base.m_value.u64 = m_vecUserData.size();
             m_vecArgument.push_back(base);
-            m_vecUserData.push_back(std::make_shared<Argument<T> >(std::forward<T>(arg)));
+            m_vecUserData.push_back(std::make_shared<Argument<T>>(std::forward<T>(arg)));
             return 0;
         }
 
@@ -81,7 +81,7 @@ namespace csn
             base.m_type = eArg_UserData;
             base.m_value.u64 = m_vecUserData.size();
             m_vecArgument.push_back(base);
-            m_vecUserData.push_back(std::make_shared<Argument<T> >(std::forward<T>(arg)));
+            m_vecUserData.push_back(std::make_shared<Argument<T>>(std::forward<T>(arg)));
             return 0;
         }
 

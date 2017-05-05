@@ -21,5 +21,5 @@ void TimerThread::run()
         m_pMonitor->wakeup(m_pMonitor->getThreadCount() - 1);
         usleep(2500);
     }
-    //add code
+    m_pMonitor->quit();
 }

@@ -5,6 +5,9 @@
 #include "arguments.h"
 #include "coroutinemanager.h"
 #include <functional>
+#include <utility>
+
+bool co_is_enable_sys_hook();
 
 namespace csn
 {
@@ -47,34 +50,39 @@ namespace csn
         
         void init(const std::function<void(Arguments&)>& fn);
         template<typename... Args>
-        Arguments& resume(Args&... args)
+        Arguments& resume(Args&&... args)
         {
             m_args.clear();
-            wrapper(m_args.push(args)...);
+            wrapper(m_args.push(std::forward<Args>(args))...);
             return resumeProc();
         }
-        
-        Arguments& resume(const Arguments& args);
+
+        Arguments& resume(Arguments& args);
         Arguments& resume();
         
         template<typename... Args>
-        static Arguments& yield(Args&... args)
+        static Arguments& yield(Args&&... args)
         {
             ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
             Arguments& ret = pEnv->pMain->m_args;
             ret.clear();
-            wrapper(ret.push(args)...);
+            wrapper(ret.push(std::forward<Args>(args))...);
 
             return yieldProc();
         }
-        
-        static Arguments& yield(const Arguments& args);
+
+        static Arguments& yield(Arguments& args);
         static Arguments& yield();
         
         void run();
         void end();
         void setIsMain(bool bIsMain);
         bool isMain();
+        bool isEnableSysHook();
+        void disableHookSys();
+        void enableHookSys();
+        void* getPvEnv();
+        void setPvEnv(void* p);
     private:
         static Arguments& yieldProc();
         Arguments& resumeProc();
@@ -89,5 +97,6 @@ namespace csn
         stStackMem_t* m_pStackMem;
         std::function<void(Arguments&)> m_fn;
         Arguments m_args;
+        void* pvEnv;
     };
 }

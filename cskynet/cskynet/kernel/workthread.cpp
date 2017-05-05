@@ -19,7 +19,7 @@ WorkThread::WorkThread(Monitor* pMonitor, ThreadMonitor* pThreadMonitor, int32_t
 void WorkThread::run()
 {
     MessageQueue* pQue = NULL;
-    while (!m_pMonitor->quit())
+    while (!m_pMonitor->isQuit())
     {
         pQue = dispatchMessage(pQue);
         if (pQue == NULL)

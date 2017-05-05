@@ -14,11 +14,6 @@ MessageQueue* GlobalMessageQueue::pop()
 {
     MessageQueue* pMQ = NULL;
     m_lock.lock();
-//    if (!m_queMQ.empty())
-//    {
-//        pMQ = m_queMQ.front();
-//        m_queMQ.pop();
-//    }
     m_queMQ.pop(pMQ);
     m_lock.unlock();
     return pMQ;

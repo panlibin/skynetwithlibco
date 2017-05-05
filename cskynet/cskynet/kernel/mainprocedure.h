@@ -9,6 +9,5 @@ namespace csn
         void start();
         void exit();
     };
-    
-#define g_MainProcedure Singleton<MainProcedure>::instance()
 }
+#define g_MainProcedure csn::Singleton<csn::MainProcedure>::instance()

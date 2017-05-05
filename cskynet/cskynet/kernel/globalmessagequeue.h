@@ -3,7 +3,6 @@
 #include "../common/spinlock.h"
 #include "messagequeue.h"
 #include "../common/circularqueue.h"
-//#include <queue>
 
 namespace csn
 {
@@ -14,9 +13,7 @@ namespace csn
         MessageQueue* pop();
     private:
         SpinLock m_lock;
-//        std::queue<MessageQueue*> m_queMQ;
         CircularQueue<MessageQueue*> m_queMQ;
     };
-
-#define g_GlobalMessageQueue Singleton<GlobalMessageQueue>::instance()
 }
+#define g_GlobalMessageQueue csn::Singleton<csn::GlobalMessageQueue>::instance()

@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../kernel/service.h"
+#include "../../kernel/service.h"
 
 namespace csn
 {
-    class Main : public Service
+    class LogService : public Service
     {
     public:
         virtual void init(Arguments& args);

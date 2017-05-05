@@ -7,6 +7,7 @@
 #include <mach/mach.h>
 #endif
 #include "timer.h"
+#include "service.h"
 
 using namespace csn;
 
@@ -43,7 +44,17 @@ uint64_t Timer::timeout(uint64_t ulHandle, uint32_t uSession, uint32_t uTime, bo
     uint64_t ulTimerId = ATOM_INC(&m_ulCurTimerId);
     if (uTime <= 0)
     {
-        //add code
+        Service* pDst = g_ServiceManager.grab(ulHandle);
+        if (NULL != pDst)
+        {
+            Message* pMsg = new Message();
+            pMsg->source = 0;
+            pMsg->session = uSession;
+            pMsg->type = MTYPE_RESPONSE;
+            pMsg->cmd = MCMD_DISPATCH;
+            pDst->pushMessage(pMsg);
+            pDst->free();
+        }
     }
     else
     {
@@ -144,7 +155,19 @@ void Timer::shift()
 
 void Timer::dispatch()
 {
-    //add code
+    for (TimerEventPtrList::iterator it = m_lstTemp.begin(); it != m_lstTemp.end(); ++it)
+    {
+        TimerEvent* pEvent = *it;
+        Service* pDst = g_ServiceManager.grab(pEvent->ulHandle);
+        Message* pMsg = new Message();
+        pMsg->source = 0;
+        pMsg->session = pEvent->uSession;
+        pMsg->type = MTYPE_RESPONSE;
+        pMsg->cmd = MCMD_DISPATCH;
+        pDst->pushMessage(pMsg);
+        pDst->free();
+    }
+    m_lstTemp.clear();
 }
 
 void Timer::addNode(TimerEvent* pEvent)

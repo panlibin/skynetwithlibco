@@ -29,7 +29,7 @@ namespace csn
         {
             if (&que == this)
             {
-                return;
+                return *this;
             }
             destroyElement(m_nHead, m_nTail);
             free(m_pQueue);

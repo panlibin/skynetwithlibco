@@ -17,6 +17,27 @@ ServiceManager::~ServiceManager()
 
 }
 
+uint64_t ServiceManager::registerHandle(Service* pService)
+{
+    m_rwlock.wlock();
+    uint64_t ulHandle = 0;
+    if (!m_queIdleHandle.pop(ulHandle))
+    {
+        ulHandle = m_vecService.size();
+        assert(ulHandle < MAX_SLOT_SIZE);
+        m_vecService.push_back(NULL);
+    }
+
+    uint64_t ulIdx = ulHandle & SLOT_MASK;
+    assert(ulIdx < m_vecService.size() && m_vecService[ulIdx] == NULL);
+    ++m_uServiceCount;
+    m_vecService[ulIdx] = pService;
+    pService->setHandle(ulHandle);
+    m_rwlock.wunlock();
+
+    return ulHandle;
+}
+
 Service* ServiceManager::grab(uint64_t ulHandle)
 {
 	Service* pRes = NULL;
@@ -104,42 +125,4 @@ void ServiceManager::destroy(uint64_t ulHandle)
 uint32_t ServiceManager::getServiceCount()
 {
     return m_uServiceCount;
-}
-
-void ServiceManager::initService(Service* pService, uint64_t ulHandle)
-{
-    pService->setHandle(ulHandle);
-    Service* pSrc = Service::getThisService();
-    if (NULL != pSrc)
-    {
-        Message* pMsg = new Message();
-        pMsg->source = pSrc->getHandle();
-        pMsg->session = pSrc->allocSessionId();
-        pMsg->type = MTYPE_CALL;
-        pMsg->cmd = MCMD_INIT;
-        Coroutine::yield(YT_CALL, ulHandle, pMsg);
-    }
-    else
-    {
-        Message* pMsg = new Message();
-        pMsg->source = 0;
-        pMsg->session = 0;
-        pMsg->type = MTYPE_SEND;
-        pMsg->cmd = MCMD_INIT;
-        pService->pushMessage(pMsg);
-        
-        pMsg = new Message();
-        pMsg->source = 0;
-        pMsg->session = 0;
-        pMsg->type = MTYPE_SEND;
-        pMsg->cmd = MCMD_DISPATCH;
-        pService->pushMessage(pMsg);
-        
-        pMsg = new Message();
-        pMsg->source = 0;
-        pMsg->session = 0;
-        pMsg->type = MTYPE_SEND;
-        pMsg->cmd = MCMD_EXIT;
-        pService->pushMessage(pMsg);
-    }
 }

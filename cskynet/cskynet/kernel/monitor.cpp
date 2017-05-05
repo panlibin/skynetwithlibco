@@ -74,7 +74,15 @@ int32_t Monitor::getThreadCount()
     return m_nCount;
 }
 
-bool Monitor::quit()
+void Monitor::quit()
+{
+    m_mutex.lock();
+    m_bQuit = true;
+    m_cond.notify_all();
+    m_mutex.unlock();
+}
+
+bool Monitor::isQuit()
 {
     return m_bQuit;
 }
@@ -96,7 +104,7 @@ void Monitor::wait()
 {
     std::unique_lock<std::mutex> lock(m_mutex);
     ++m_nSleep;
-    if (!quit())
+    if (!isQuit())
     {
         m_cond.wait(lock);
     }

@@ -11,23 +11,11 @@ ThreadEnv* CoroutineManager::getThreadEnv()
     {
         m_pThreadEnv = new ThreadEnv();
         m_pThreadEnv->pMain = new Coroutine();
+        m_pThreadEnv->pMain->disableHookSys();
         m_pThreadEnv->pMain->setIsMain(true);
         m_pThreadEnv->pRunning = m_pThreadEnv->pMain;
     }
     return m_pThreadEnv;
-//    std::map<std::thread::id, ThreadEnv*>::iterator it = m_mappThreadEnv.find(std::this_thread::get_id());
-//    if (it != m_mappThreadEnv.end())
-//    {
-//        return it->second;
-//    }
-//    else
-//    {
-//        ThreadEnv* pThreadEnv = new ThreadEnv();
-//        pThreadEnv->pMain = new Coroutine();
-//        pThreadEnv->pRunning = pThreadEnv->pMain;
-//        m_mappThreadEnv[std::this_thread::get_id()] = pThreadEnv;
-//        return pThreadEnv;
-//    }
 }
 
 Coroutine* CoroutineManager::create(const std::function<void(Arguments&)>& fn)

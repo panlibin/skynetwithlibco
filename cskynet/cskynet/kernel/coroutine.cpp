@@ -8,6 +8,11 @@ extern "C"
     extern void coctx_swap( coctx_t *,coctx_t* ) asm("coctx_swap");
 };
 
+bool co_is_enable_sys_hook()
+{
+    return g_CoroutineManager.getThreadEnv()->pRunning->isEnableSysHook();
+}
+
 static int CoRoutineFunc(Coroutine *co, void *)
 {
     co->run();
@@ -40,7 +45,7 @@ void Coroutine::init(const std::function<void(Arguments&)>& fn)
     m_bEnd = false;
 }
 
-Arguments& Coroutine::resume(const Arguments& args)
+Arguments& Coroutine::resume(Arguments& args)
 {
     m_args = args;
     return resumeProc();
@@ -67,7 +72,7 @@ Arguments& Coroutine::resumeProc()
     return pEnv->pRunning->m_args;
 }
 
-Arguments& Coroutine::yield(const Arguments& args)
+Arguments& Coroutine::yield(Arguments& args)
 {
     ThreadEnv* pEnv = g_CoroutineManager.getThreadEnv();
     pEnv->pMain->m_args = args;
@@ -117,4 +122,29 @@ void Coroutine::setIsMain(bool bIsMain)
 bool Coroutine::isMain()
 {
     return m_bIsMain;
+}
+
+bool Coroutine::isEnableSysHook()
+{
+    return m_bEnableSysHook;
+}
+
+void Coroutine::disableHookSys()
+{
+    m_bEnableSysHook = false;
+}
+
+void Coroutine::enableHookSys()
+{
+    m_bEnableSysHook = true;
+}
+
+void* Coroutine::getPvEnv()
+{
+    return pvEnv;
+}
+
+void Coroutine::setPvEnv(void* p)
+{
+    pvEnv = p;
 }

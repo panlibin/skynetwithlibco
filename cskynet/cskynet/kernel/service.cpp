@@ -24,9 +24,9 @@ Service::Service()
 
 Service::~Service()
 {
-    for (CoMapIdxBySession::iterator it = m_mapCo.begin(); it != m_mapCo.end(); ++it)
+    for (SessionMap::iterator it = m_mapSession.begin(); it != m_mapSession.end(); ++it)
     {
-        g_CoroutineManager.free(it->second);
+        g_CoroutineManager.free(it->second.pCo);
     }
     m_pMsgQue->markRelease();
 }
@@ -58,24 +58,30 @@ void Service::callback(Message* pMsg)
         default:
             break;
         }
-        suspend(pCo, pCo->resume(pMsg->args));
+        suspend(pCo, pMsg, pCo->resume(pMsg->args));
         break;
     }
     case MTYPE_RESPONSE:
     {
-        CoMapIdxBySession::iterator it = m_mapCo.find(pMsg->session);
-        if (it != m_mapCo.end())
+        SessionMap::iterator it = m_mapSession.find(pMsg->session);
+        if (it != m_mapSession.end())
         {
-            Coroutine* pCo = it->second;
-            m_mapCo.erase(it);
-            suspend(pCo, pCo->resume(pMsg->args));
+            Session& s = it->second;
+            Coroutine* pCo = s.pCo;
+            Message* pMsgRecv = s.pMsg;
+            m_ulMsgSource = pMsgRecv->source;
+            m_uMsgSession = pMsgRecv->session;
+            m_mapSession.erase(it);
+            suspend(pCo, pMsgRecv, pCo->resume(pMsg->args));
         }
+        delete pMsg;
         break;
     }
     default:
+        delete pMsg;
         break;
     }
-    delete pMsg;
+
     m_ulMsgSource = 0;
     m_uMsgSession = 0;
     s_pThisService = NULL;
@@ -115,10 +121,23 @@ void Service::pushMessage(Message* pMsg)
     m_pMsgQue->push(pMsg);
 }
 
-void Service::suspend(Coroutine* pCo, Arguments& args)
+void Service::suspend(Coroutine* pCo, Message* pMsgRecv, Arguments& args)
 {
     if (args.size() == 0)
     {
+        switch (pMsgRecv->cmd)
+        {
+        case MCMD_INIT:
+            Service::ret();
+            break;
+        case MCMD_EXIT:
+            Service::free();
+            break;
+        default:
+            break;
+        }
+        g_CoroutineManager.free(pCo);
+        delete pMsgRecv;
         return;
     }
     switch (args.get<int16_t>(0))
@@ -126,22 +145,25 @@ void Service::suspend(Coroutine* pCo, Arguments& args)
     case YT_CALL:
     {
         Service* pDst = g_ServiceManager.grab(args.get<uint64_t>(1));
-        Message* pMsg = args.get<Message*>(2);
+        Message* pMsgSend = args.get<Message*>(2);
         if (NULL != pDst)
         {
-            assert(m_mapCo.find(pMsg->session) == m_mapCo.end());
-            m_mapCo.insert(std::make_pair(pMsg->session, pCo));
-            pDst->pushMessage(pMsg);
+            assert(m_mapSession.find(pMsgSend->session) == m_mapSession.end());
+            Session& s = m_mapSession[pMsgSend->session];
+            s.pCo = pCo;
+            s.pMsg = pMsgRecv;
+            pDst->pushMessage(pMsgSend);
         }
         else
         {
             g_CoroutineManager.free(pCo);
-            delete pMsg;
+            delete pMsgSend;
         }
         pDst->free();
         break;
     }
     default:
+        delete pMsgRecv;
         break;
     }
 }
@@ -151,7 +173,7 @@ uint32_t Service::allocSessionId()
     return ATOM_INC(&m_uSession);
 }
 
-Service* Service::getThisService()
+Service* Service::ThisService()
 {
     return s_pThisService;
 }

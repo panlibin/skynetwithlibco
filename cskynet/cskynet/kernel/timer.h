@@ -54,5 +54,5 @@ namespace csn
         TimerEventPtrList m_lstLevel[4][TIME_LEVEL];
         TimerEventPtrList m_lstTemp;
     };
-#define g_Timer Singleton<Timer>::instance()
 }
+#define g_Timer csn::Singleton<csn::Timer>::instance()
